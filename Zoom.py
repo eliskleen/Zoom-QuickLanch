@@ -23,42 +23,28 @@ def openZoomLink(linkAndPass):
     os.system("start  "+ link)
 
 
-def checkIfSame(imgA, imgB):
-    pixA = imgA.load()
-    pixB = imgB.load()
-    err = 0
-    for x in range(sizeX):
-        for y in range(sizeY):
-            (rX, gX, bX) = pixA[x, y]
-            (rY, gY, bY) = pixB[x, y]
-            currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
-            err += currentErr
-
-    return err
-
 topX = 764
 topY = 340
 sizeX = 200
 sizeY = 200
 
 def waitForZoom():
-    a = 0
-    picFolder = os.getcwd() + "\\prompts"
-    onlyfiles = os.listdir(picFolder)
-    # print(onlyfiles)
-    while 1:
-        # time.sleep(1)
+    currentDir = os.getcwd() + "\\positionsOnScreen.txt"
+    file = open(currentDir, mode='r')
+    lines = file.read().split("\n")
+    a=0
+    while(1):
+        currentLine=lines[a].split(";")
+        time.sleep(4) 
+        left = int(currentLine[0])
+        top = int(currentLine[1])
+        width = int(currentLine[2])
+        height = int(currentLine[3])
+        currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
+        err = checkIfSame(currentScreen, meetingPasscode) 
         a += 1
-        currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
-        for file in onlyfiles:
-            pic = Image.open(picFolder + "\\" + file) 
-            err1 = checkIfSame(pic, currentScreen)
-            #err2 = checkIfSame(zoomPromptWLine, currentScreen)
-            #currentScreen.save("latest" + str(a) + ".png")
-            # print(err1)
-            # print(err3)
-            if err1 == 0: #or err2 == 0:
-                return
+        if err = 0
+            break
             
 def tabToCorrectMeeting(passW):
     time.sleep(4)
@@ -73,8 +59,8 @@ def tabToCorrectMeeting(passW):
         currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
         err1 = checkIfSame(waitingForZoomInChrome, currentScreen)
         err2 = checkIfSame(zoomConnecting, currentScreen) 
-        currentScreen.save("latest" + str(a) + ".png")
-        print (err2)
+        #currentScreen.save("latest" + str(a) + ".png")
+        #print (err2)
         if err1 != 0 and err2 > 1000:
             return
 
@@ -118,18 +104,23 @@ def removeOldLink():
     file.close() 
 
 
-zoomPrompt = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomPromptSmall.png')
-zoomPromptWLine = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomPromptWLine.png') 
+meetingPasscode = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\prompts\\MeetingPasscode.png')
 waitingForZoomInChrome = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\waitingForZoomInChrome.png') 
 zoomConnecting = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomConnecting.png')  
 
 
 def addCurrentPromptToFolder():
-    picFolder = os.getcwd() + "\\prompts"
-    onlyfiles = os.listdir(picFolder)
-    currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
-    numberOfPictues = len(onlyfiles)
-    currentScreen.save(os.getcwd() + "\\prompts\\prompt" + str(numberOfPictues+1) + ".png")
+    while(1):
+        point = pyautogui.locateOnScreen(meetingPasscode, grayscale=True)
+        print(point)
+        if point != None:
+            break
+    file = open(os.getcwd() + "\\positionsOnScreen.txt", 'r')
+    txt = file.read()
+    txt += "\n " + str(point.left) +";"+ str(point.top) +";" + str(point.width) +";"+ str(point.height)
+    file = open(os.getcwd() + "\\positionsOnScreen.txt", 'w')
+    file.write(txt)
+    
  
 
 if __name__ == "__main__":
@@ -140,7 +131,6 @@ if __name__ == "__main__":
     topY = int(h/2 - sizeY/2)
     lines = getLines()
     
-
     
 
     a = 1
