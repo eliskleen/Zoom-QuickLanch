@@ -34,18 +34,31 @@ def waitForZoom():
     lines = file.read().split("\n")
     a=0
     while(1):
+        a = a % (len(lines)-1)
         currentLine=lines[a].split(";")
-        time.sleep(4) 
+        print(currentLine)
         left = int(currentLine[0])
         top = int(currentLine[1])
         width = int(currentLine[2])
         height = int(currentLine[3])
         currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
-        err = checkIfSame(currentScreen, meetingPasscode) 
+        err = checkIfSame(meetingPasscode ,currentScreen , width, height) 
         a += 1
-        if err = 0
+        if err == 0:
             break
             
+def checkIfSame(imgA, imgB, w, h):
+    pixA = imgA.convert('RGB')
+    pixB = imgB.convert('RGB')
+    err = 0
+    for x in range(w):
+        for y in range(h):
+            (rX, gX, bX) = pixA.getpixel((x, y))
+            (rY, gY, bY) = pixB.getpixel((x, y))
+            currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
+            err += currentErr
+
+    return err
 def tabToCorrectMeeting(passW):
     time.sleep(4)
     tabs = int(re.split(":", passW, 1)[1])
@@ -55,14 +68,14 @@ def tabToCorrectMeeting(passW):
     pyautogui.typewrite("\n")    
     a = 0
     while 1:
-        a += 1
-        currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
-        err1 = checkIfSame(waitingForZoomInChrome, currentScreen)
-        err2 = checkIfSame(zoomConnecting, currentScreen) 
-        #currentScreen.save("latest" + str(a) + ".png")
-        #print (err2)
-        if err1 != 0 and err2 > 1000:
+        point = pyautogui.locateOnScreen(lanchMeeting, grayscale=True)
+        print(point)
+        if point != None or a >= 15:
+            time.sleep(4)
             return
+        a += 1
+
+        
 
 
 def enterPass(linkAndPass):
@@ -105,9 +118,7 @@ def removeOldLink():
 
 
 meetingPasscode = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\prompts\\MeetingPasscode.png')
-waitingForZoomInChrome = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\waitingForZoomInChrome.png') 
-zoomConnecting = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomConnecting.png')  
-
+lanchMeeting = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\prompts\\LanchMeeting.png') 
 
 def addCurrentPromptToFolder():
     while(1):
