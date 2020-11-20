@@ -44,6 +44,10 @@ topY = int(340/scale)
 sizeX = int(200*scale)
 sizeY = int(200*scale)
 
+
+
+
+
 def waitForZoom():
     a = 0
     picFolder = os.getcwd() + "\\prompts"
