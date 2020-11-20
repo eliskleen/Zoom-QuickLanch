@@ -27,8 +27,8 @@ def checkIfSame(imgA, imgB):
     pixA = imgA.convert('RGB')
     pixB = imgB.convert('RGB')
     err = 0
-    for x in range(w):
-        for y in range(h):
+    for x in range(200):
+        for y in range(200):
             (rX, gX, bX) = pixA.getpixel((x, y))
             (rY, gY, bY) = pixB.getpixel((x, y))
             currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
