@@ -27,19 +27,22 @@ def checkIfSame(imgA, imgB):
     pixA = imgA.convert('RGB')
     pixB = imgB.convert('RGB')
     err = 0
-    for x in range(200):
-        for y in range(200):
+    for x in range(sizeX):
+        for y in range(sizeY):
             (rX, gX, bX) = pixA.getpixel((x, y))
             (rY, gY, bY) = pixB.getpixel((x, y))
             currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
+
             err += currentErr
 
     return err
 
-topX = 764
-topY = 340
-sizeX = 200
-sizeY = 200
+
+scale = 1
+topX = int(764/scale)
+topY = int(340/scale)
+sizeX = int(200*scale)
+sizeY = int(200*scale)
 
 def waitForZoom():
     a = 0
@@ -52,12 +55,13 @@ def waitForZoom():
         currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
         for file in onlyfiles:
             pic = Image.open(picFolder + "\\" + file) 
-            err1 = checkIfSame(pic, currentScreen)
+            rezized = pic.resize((sizeX, sizeY))
+            err1 = checkIfSame(rezized, currentScreen)
             #err2 = checkIfSame(zoomPromptWLine, currentScreen)
             #currentScreen.save("latest" + str(a) + ".png")
             # print(err1)
             # print(err3)
-            if err1 == 0: #or err2 == 0:
+            if err1 == 0:
                 return
             
 def tabToCorrectMeeting(passW):
