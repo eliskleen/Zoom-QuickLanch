@@ -24,13 +24,13 @@ def openZoomLink(linkAndPass):
 
 
 def checkIfSame(imgA, imgB):
-    pixA = imgA.load()
-    pixB = imgB.load()
+    pixA = imgA.convert('RGB')
+    pixB = imgB.convert('RGB')
     err = 0
-    for x in range(sizeX):
-        for y in range(sizeY):
-            (rX, gX, bX) = pixA[x, y]
-            (rY, gY, bY) = pixB[x, y]
+    for x in range(w):
+        for y in range(h):
+            (rX, gX, bX) = pixA.getpixel((x, y))
+            (rY, gY, bY) = pixB.getpixel((x, y))
             currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
             err += currentErr
 
