@@ -43,9 +43,10 @@ def waitForZoom():
         top = int(int(currentLine[1])/scale)
         width = int(int(currentLine[2])*scale)
         height =int(int(currentLine[3])*scale)
+        rezized = meetingPasscode.resize((width, height))
         currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
         
-        err = checkIfSame(meetingPasscode ,currentScreen , width, height) 
+        err = checkIfSame(rezized ,currentScreen , width, height) 
         if(b == 10):
             currentScreen.save("current.png")
             print("saved")
