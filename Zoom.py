@@ -23,10 +23,11 @@ def openZoomLink(linkAndPass):
     os.system("start  "+ link)
 
 
-topX = 764
-topY = 340
-sizeX = 200
-sizeY = 200
+scale = 1.5
+topX = int(764/scale)
+topY = int(340/scale)
+sizeX = int(200*scale)
+sizeY = int(200*scale)
 
 def waitForZoom():
     currentDir = os.getcwd() + "\\positionsOnScreen.txt"
@@ -38,11 +39,12 @@ def waitForZoom():
         a = a % (len(lines))
         currentLine=lines[a].split(";")
         #print(currentLine)
-        left = int(currentLine[0])
-        top = int(currentLine[1])
-        width = int(currentLine[2])
-        height = int(currentLine[3])
+        left =int(int(currentLine[0])/scale)
+        top = int(int(currentLine[1])/scale)
+        width = int(int(currentLine[2])*scale)
+        height =int(int(currentLine[3])*scale)
         currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
+        
         err = checkIfSame(meetingPasscode ,currentScreen , width, height) 
         if(b == 10):
             currentScreen.save("current.png")
