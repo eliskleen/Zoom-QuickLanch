@@ -33,6 +33,7 @@ def waitForZoom():
     file = open(currentDir, mode='r')
     lines = file.read().split("\n")
     a=0
+    b=0
     while(1):
         a = a % (len(lines))
         currentLine=lines[a].split(";")
@@ -43,10 +44,12 @@ def waitForZoom():
         height = int(currentLine[3])
         currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
         err = checkIfSame(meetingPasscode ,currentScreen , width, height) 
-        if(a == 10):
-            currentScreen.save()
+        if(b == 10):
+            currentScreen.save("current.png")
+            print("saved")
         print(err)
         a += 1
+        b+=1
         if err == 0:
             break
             
