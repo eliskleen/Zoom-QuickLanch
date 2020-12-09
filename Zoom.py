@@ -5,7 +5,8 @@ import re
 import pyautogui
 import time
 import ctypes
-
+import numpy as np
+import imagehash
 from os.path import isfile, join
 
 
@@ -23,51 +24,25 @@ def openZoomLink(linkAndPass):
     os.system("start  "+ link)
 
 
-scale = 1.5
-topX = int(764/scale)
-topY = int(340/scale)
-sizeX = int(200*scale)
-sizeY = int(200*scale)
-
 def waitForZoom():
-    currentDir = os.getcwd() + "\\positionsOnScreen.txt"
-    file = open(currentDir, mode='r')
-    lines = file.read().split("\n")
-    a=0
-    b=0
+    currentDir = os.getcwd()
+    reName = currentDir + "\\picture\\tmp\\current.png"
+    promtName = currentDir + "\\picture\\prompt.png"
     while(1):
-        a = a % (len(lines))
-        currentLine=lines[a].split(";")
-        #print(currentLine)
-        left =int(int(currentLine[0])/scale)
-        top = int(int(currentLine[1])/scale)
-        width = int(int(currentLine[2])*scale)
-        height =int(int(currentLine[3])*scale)
-        rezized = meetingPasscode.resize((width, height))
-        currentScreen = ImageGrab.grab(bbox=(left, top, left + width, top + height)) 
-        
-        err = checkIfSame(rezized ,currentScreen , width, height) 
-        if(b == 10):
-            currentScreen.save("current.png")
-            print("saved")
-        print(err)
-        a += 1
-        b+=1
-        if err == 0:
-            break
+        currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
+        #Resize the screenshot to compare to prompt
+        currentScreen.save(reName) 
+        err=checkIfSame(reName, promtName)
+        if(err<10):
+            return
             
-def checkIfSame(imgA, imgB, w, h):
-    pixA = imgA.convert('RGB')
-    pixB = imgB.convert('RGB')
-    err = 0
-    for x in range(w):
-        for y in range(h):
-            (rX, gX, bX) = pixA.getpixel((x, y))
-            (rY, gY, bY) = pixB.getpixel((x, y))
-            currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
-            err += currentErr
+def checkIfSame(imgA, imgB):
+    hash0 = imagehash.average_hash(Image.open(imgA)) 
+    hash1 = imagehash.average_hash(Image.open(imgB)) 
+    return (hash0 - hash1)
 
-    return err
+
+
 def tabToCorrectMeeting(passW):
     time.sleep(4)
     tabs = int(re.split(":", passW, 1)[1])
@@ -75,14 +50,6 @@ def tabToCorrectMeeting(passW):
         pyautogui.hotkey("tab")
         time.sleep(0.2)
     pyautogui.typewrite("\n")    
-    a = 0
-    while 1:
-        point = pyautogui.locateOnScreen(lanchMeeting, grayscale=True)
-        print(point)
-        if point != None or a >= 15:
-            time.sleep(4)
-            return
-        a += 1
 
         
 
@@ -125,33 +92,41 @@ def removeOldLink():
             file.write("\n")
     file.close() 
 
-
-meetingPasscode = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\prompts\\MeetingPasscode.png')
-lanchMeeting = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\prompts\\LanchMeeting.png') 
-
-def addCurrentPromptToFolder():
-    while(1):
-        point = pyautogui.locateOnScreen(meetingPasscode, grayscale=True)
-        print(point)
-        if point != None:
-            break
-    file = open(os.getcwd() + "\\positionsOnScreen.txt", 'r')
-    txt = file.read()
-    txt += "\n " + str(point.left) +";"+ str(point.top) +";" + str(point.width) +";"+ str(point.height)
-    file = open(os.getcwd() + "\\positionsOnScreen.txt", 'w')
-    file.write(txt)
-    
- 
-
-if __name__ == "__main__":
+scale = 1
+sizeX = 0
+sizeY = 0
+topX = 0
+topY = 0
+def rescale():
+    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
+    #print(scaleFactor)
+    scale=scaleFactor
+    #rescale sizes
+    sizeX = int(338*scale)
+    sizeY = int(200*scale)
+    #Get screen size and calculate where to screenshot
     user32 = ctypes.windll.user32
-    user32.SetProcessDPIAware()
     [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
     topX = int(w/2 - sizeX/2)
     topY = int(h/2 - sizeY/2)
+
+    
+
+if __name__ == "__main__":
+    #Get the scale factor:
+    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
+    #print(scaleFactor)
+    scale=scaleFactor
+    #rescale sizes
+    sizeX = int(150*scale)
+    sizeY = int(300*scale)
+    #Get screen size and calculate where to screenshot
+    user32 = ctypes.windll.user32
+    [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+    topX = int(w/2 - sizeX/2)
+    topY = int(h/2 - sizeY/2)
+    sizeY=int(150*scale)
     lines = getLines()
-    
-    
 
     a = 1
     for line in lines:
@@ -166,10 +141,6 @@ if __name__ == "__main__":
             addNewLinkAndPass()
         elif answer == "r":
             removeOldLink()
-        elif answer == "c":
-            time.sleep(2)
-            addCurrentPromptToFolder()
-            closeWindowInChrome(1)
         elif answer == "q":
             break
         else:
@@ -182,7 +153,6 @@ if __name__ == "__main__":
                 time.sleep(5)
                 closeWindowInChrome(2)
             else:
-                # print("waiting")
                 if(passW != ""):
                     waitForZoom()
                     closeWindowInChrome(1)

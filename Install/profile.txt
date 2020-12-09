@@ -1,0 +1,21 @@
+            
+            {
+                // Make changes here to the cmd.exe profile.
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6104}",
+                "name": "Zoom Quick Launch",
+                "commandline": "cmd.exe",
+                "background": "#FFFFFF",
+                "cursorColor": "#008888",
+                "foreground": "#3B86FC",
+                "icon": "C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\ZoomIconSmol.png",
+                "backgroundImage": "C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\Zoom_Icon.jpg",
+                "backgroundImageStretchMode": "uniform",
+                "backgroundImageAlignment": "center",
+                "backgroundImageOpacity": 0.9,
+                "startingDirectory": "C:\\Chalmers\\RoligaProjekt\\ZoomOpen",
+                "commandline": "python Zoom.py",
+                "hidden": false,
+                "useAcrylic": true,
+                "acrylicOpacity": 0.9,
+                "tabTitle": "Zoom Quick Launch"
+            },
