@@ -5,8 +5,7 @@ import re
 import pyautogui
 import time
 import ctypes
-import numpy as np
-import imagehash
+
 from os.path import isfile, join
 
 
@@ -16,7 +15,7 @@ def getLink(line):
 
 def getLines():
     currentDir = os.getcwd() + "\\zoomLinks.txt"
-    file = open(currentDir, mode='r',encoding="utf-8")
+    file = open(currentDir, mode='r')
     lines = file.read().split("\n")
     return lines
 def openZoomLink(linkAndPass):
@@ -24,8 +23,6 @@ def openZoomLink(linkAndPass):
     os.system("start  "+ link)
 
 
-<<<<<<< HEAD
-=======
 def checkIfSame(imgA, imgB):
     pixA = imgA.convert('RGB')
     pixB = imgB.convert('RGB')
@@ -51,20 +48,15 @@ sizeY = int(200*scale)
 
 
 
->>>>>>> master
 def waitForZoom():
-    currentDir = os.getcwd()
-    reName = currentDir + "\\picture\\tmp\\current.png"
-    promtName = currentDir + "\\picture\\prompt.png"
-    while(1):
+    a = 0
+    picFolder = os.getcwd() + "\\prompts"
+    onlyfiles = os.listdir(picFolder)
+    # print(onlyfiles)
+    while 1:
+        # time.sleep(1)
+        a += 1
         currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
-<<<<<<< HEAD
-        #Resize the screenshot to compare to prompt
-        currentScreen.save(reName) 
-        err=checkIfSame(reName, promtName)
-        if(err<10):
-            return
-=======
         for file in onlyfiles:
             pic = Image.open(picFolder + "\\" + file) 
             rezized = pic.resize((sizeX, sizeY))
@@ -75,15 +67,7 @@ def waitForZoom():
             # print(err3)
             if err1 == 0:
                 return
->>>>>>> master
             
-def checkIfSame(imgA, imgB):
-    hash0 = imagehash.average_hash(Image.open(imgA)) 
-    hash1 = imagehash.average_hash(Image.open(imgB)) 
-    return (hash0 - hash1)
-
-
-
 def tabToCorrectMeeting(passW):
     time.sleep(4)
     tabs = int(re.split(":", passW, 1)[1])
@@ -91,8 +75,16 @@ def tabToCorrectMeeting(passW):
         pyautogui.hotkey("tab")
         time.sleep(0.2)
     pyautogui.typewrite("\n")    
-
-        
+    a = 0
+    while 1:
+        a += 1
+        currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
+        err1 = checkIfSame(waitingForZoomInChrome, currentScreen)
+        err2 = checkIfSame(zoomConnecting, currentScreen) 
+        currentScreen.save("latest" + str(a) + ".png")
+        print (err2)
+        if err1 != 0 and err2 > 1000:
+            return
 
 
 def enterPass(linkAndPass):
@@ -133,41 +125,31 @@ def removeOldLink():
             file.write("\n")
     file.close() 
 
-scale = 1
-sizeX = 0
-sizeY = 0
-topX = 0
-topY = 0
-def rescale():
-    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
-    #print(scaleFactor)
-    scale=scaleFactor
-    #rescale sizes
-    sizeX = int(338*scale)
-    sizeY = int(200*scale)
-    #Get screen size and calculate where to screenshot
-    user32 = ctypes.windll.user32
-    [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
-    topX = int(w/2 - sizeX/2)
-    topY = int(h/2 - sizeY/2)
 
-    
+zoomPrompt = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomPromptSmall.png')
+zoomPromptWLine = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomPromptWLine.png') 
+waitingForZoomInChrome = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\waitingForZoomInChrome.png') 
+zoomConnecting = Image.open('C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\zoomConnecting.png')  
+
+
+def addCurrentPromptToFolder():
+    picFolder = os.getcwd() + "\\prompts"
+    onlyfiles = os.listdir(picFolder)
+    currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
+    numberOfPictues = len(onlyfiles)
+    currentScreen.save(os.getcwd() + "\\prompts\\prompt" + str(numberOfPictues+1) + ".png")
+ 
 
 if __name__ == "__main__":
-    #Get the scale factor:
-    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
-    #print(scaleFactor)
-    scale=scaleFactor
-    #rescale sizes
-    sizeX = int(150*scale)
-    sizeY = int(300*scale)
-    #Get screen size and calculate where to screenshot
     user32 = ctypes.windll.user32
+    user32.SetProcessDPIAware()
     [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
     topX = int(w/2 - sizeX/2)
     topY = int(h/2 - sizeY/2)
-    sizeY=int(150*scale)
     lines = getLines()
+    
+
+    
 
     a = 1
     for line in lines:
@@ -182,6 +164,10 @@ if __name__ == "__main__":
             addNewLinkAndPass()
         elif answer == "r":
             removeOldLink()
+        elif answer == "c":
+            time.sleep(2)
+            addCurrentPromptToFolder()
+            closeWindowInChrome(1)
         elif answer == "q":
             break
         else:
@@ -194,6 +180,7 @@ if __name__ == "__main__":
                 time.sleep(5)
                 closeWindowInChrome(2)
             else:
+                # print("waiting")
                 if(passW != ""):
                     waitForZoom()
                     closeWindowInChrome(1)
