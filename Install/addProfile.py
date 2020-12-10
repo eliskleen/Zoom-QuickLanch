@@ -8,7 +8,6 @@ from os.path import isfile, join
 
 
 def getLines():
-    
     settings = open(fileName)
     lines = settings.read().split("\n")
     return lines
@@ -17,12 +16,12 @@ def getNewProfile():
     file=open("profile.txt")
     lines = file.read().split("\n")
     # "icon": "C:\Chalmers\RoligaProjekt\ZoomOpen\Install\ZoomIconSmol.png",
-    lines[9]= "                \"icon\": \"" + currentDir + "\\ZoomIconSmol.png\","
-    lines[10] = "                \"backgroundImage\": \"" + currentDir + "\\Zoom_Icon.jpg\","
-    lines[14] = "                \"startingDirectory\": \"" + currentDir + "\..\\" + "\","
+    lines[8]= "                \"icon\": \"" + currentDir + "\\ZoomIconSmol.png\","
+    lines[9] = "                \"backgroundImage\": \"" + currentDir + "\\Zoom_Icon.jpg\","
+    lines[13] = "                \"startingDirectory\": \"" + currentDir + "\..\\" + "\","
+    lines[8] = lines[8].replace("\\", "\\\\")
     lines[9] = lines[9].replace("\\", "\\\\")
-    lines[10] = lines[10].replace("\\", "\\\\")
-    lines[14] = lines[14].replace("\\", "\\\\")
+    lines[13] = lines[13].replace("\\", "\\\\")
     print(lines[9])
     return lines
 
@@ -43,14 +42,17 @@ if __name__ == "__main__":
     top = []
     bottom=[]
     a=0
+    lineToInsertOn =0
+    listFound = False
     for line in lines:
-        if(a<44):
-            top.append(line)
-        else:
-            bottom.append(line)
+        if(line.__contains__("\"list\":")):
+            listFound = True
+        if((listFound & line.__contains__("[")) or line.__contains__("\"list\": [")):
+            lineToInsertOn = a+1
+            break
         a +=1
+    
     profile  = getNewProfile()
-
-    newSettings = top + profile + bottom
+    newSettings = lines[:lineToInsertOn] + profile + lines[lineToInsertOn:]
     settings = open(fileName, 'w')
     settings.write(getFullStr(newSettings))
