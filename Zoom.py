@@ -35,6 +35,7 @@ def waitForZoom():
         err=checkIfSame(reName, promtName)
         if(err<10):
             return
+
             
 def checkIfSame(imgA, imgB):
     hash0 = imagehash.average_hash(Image.open(imgA)) 
