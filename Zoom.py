@@ -24,17 +24,58 @@ def openZoomLink(linkAndPass):
     os.system("start  "+ link)
 
 
+<<<<<<< HEAD
+=======
+def checkIfSame(imgA, imgB):
+    pixA = imgA.convert('RGB')
+    pixB = imgB.convert('RGB')
+    err = 0
+    for x in range(sizeX):
+        for y in range(sizeY):
+            (rX, gX, bX) = pixA.getpixel((x, y))
+            (rY, gY, bY) = pixB.getpixel((x, y))
+            currentErr = abs(rX-rY) + abs(gX - gY) + abs(bX - bY)
+
+            err += currentErr
+
+    return err
+
+
+scale = 1
+topX = int(764/scale)
+topY = int(340/scale)
+sizeX = int(200*scale)
+sizeY = int(200*scale)
+
+
+
+
+
+>>>>>>> master
 def waitForZoom():
     currentDir = os.getcwd()
     reName = currentDir + "\\picture\\tmp\\current.png"
     promtName = currentDir + "\\picture\\prompt.png"
     while(1):
         currentScreen = ImageGrab.grab(bbox=(topX, topY, topX + sizeX, topY + sizeY))
+<<<<<<< HEAD
         #Resize the screenshot to compare to prompt
         currentScreen.save(reName) 
         err=checkIfSame(reName, promtName)
         if(err<10):
             return
+=======
+        for file in onlyfiles:
+            pic = Image.open(picFolder + "\\" + file) 
+            rezized = pic.resize((sizeX, sizeY))
+            err1 = checkIfSame(rezized, currentScreen)
+            #err2 = checkIfSame(zoomPromptWLine, currentScreen)
+            #currentScreen.save("latest" + str(a) + ".png")
+            # print(err1)
+            # print(err3)
+            if err1 == 0:
+                return
+>>>>>>> master
             
 def checkIfSame(imgA, imgB):
     hash0 = imagehash.average_hash(Image.open(imgA)) 
