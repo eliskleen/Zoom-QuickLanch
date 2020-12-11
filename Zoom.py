@@ -16,7 +16,14 @@ def getLink(line):
 
 def getLines():
     currentDir = os.getcwd() + "\\zoomLinks.txt"
-    file = open(currentDir, mode='w+',encoding="utf-8")
+    try:
+        f = open(currentDir)
+    # Do something with the file
+    except IOError:
+         f = open(currentDir, mode='w+',encoding="utf-8")
+    finally:
+        f.close()
+    file = open(currentDir, mode='r',encoding="utf-8")
     lines = file.read().split("\n")
     return lines
 def openZoomLink(linkAndPass):
