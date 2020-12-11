@@ -58,7 +58,7 @@ if __name__ == "__main__":
         guidOk = False
         while(guidOk == False):
             profile[2] = profile[2].replace(str(a), str(a+1))
-            print(profile[2])
+            #print(profile[2])
             a += 1
             if(lines.__contains__(profile[2]) == False):
                 guidOk = True

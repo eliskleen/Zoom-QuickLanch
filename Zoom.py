@@ -5,7 +5,6 @@ import re
 import pyautogui
 import time
 import ctypes
-import numpy as np
 import imagehash
 from os.path import isfile, join
 
