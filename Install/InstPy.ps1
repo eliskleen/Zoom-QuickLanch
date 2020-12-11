@@ -9,7 +9,7 @@ $version = if($p -is [System.Management.Automation.ErrorRecord])
 else
 {$InstPy = 0}
 
-if($InstPy -eq 0)
+if($InstPy -eq 1)
 {
     $pythonUrl = "https://www.python.org/ftp/python/3.9.1/python-3.9.1-amd64.exe"
 
