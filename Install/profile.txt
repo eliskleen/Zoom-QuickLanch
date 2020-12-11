@@ -1,5 +1,5 @@
             {
-                // Make changes here to the cmd.exe profile.
+                //Zoom quick lanch profile
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6104}",
                 "name": "Zoom Quick Launch",
                 "commandline": "cmd.exe",

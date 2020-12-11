@@ -22,7 +22,6 @@ def getNewProfile():
     lines[8] = lines[8].replace("\\", "\\\\")
     lines[9] = lines[9].replace("\\", "\\\\")
     lines[13] = lines[13].replace("\\", "\\\\")
-    print(lines[9])
     return lines
 
 
@@ -45,7 +44,7 @@ if __name__ == "__main__":
     lineToInsertOn =0
     listFound = False
     for line in lines:
-        if(line.__contains__("\"list\":")):
+        if(line.__contains__("\"list\":")):     #Finding the list of users to know where to add the new profile
             listFound = True
         if((listFound & line.__contains__("[")) or line.__contains__("\"list\": [")):
             lineToInsertOn = a+1
@@ -53,6 +52,16 @@ if __name__ == "__main__":
         a +=1
     
     profile  = getNewProfile()
+    #making sure the guid doesent already exist
+    if(lines.__contains__(profile[2])):
+        a =0
+        guidOk = False
+        while(guidOk == False):
+            profile[2] = profile[2].replace(str(a), str(a+1))
+            print(profile[2])
+            a += 1
+            if(lines.__contains__(profile[2]) == False):
+                guidOk = True
     newSettings = lines[:lineToInsertOn] + profile + lines[lineToInsertOn:]
     settings = open(fileName, 'w')
     settings.write(getFullStr(newSettings))
