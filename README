@@ -1,2 +1,7 @@
+Required:
+    Having Windows terminal installed
+    accepting downloads when running the install.bat file
+
+    
 To install simply place the folder where you want to store it. Then run the batch file and then open your Windows terminal and press "Ctrl+Shift+1" to run the program.
 Them you can add the links and passwords you want from the windows terminal!
