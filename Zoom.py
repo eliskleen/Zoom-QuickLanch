@@ -16,7 +16,7 @@ def getLink(line):
 
 def getLines():
     currentDir = os.getcwd() + "\\zoomLinks.txt"
-    file = open(currentDir, mode='r',encoding="utf-8")
+    file = open(currentDir, mode='w+',encoding="utf-8")
     lines = file.read().split("\n")
     return lines
 def openZoomLink(linkAndPass):
@@ -130,8 +130,9 @@ if __name__ == "__main__":
 
     a = 1
     for line in lines:
-        print(str(a) + ": " + re.split(";", line)[0])
-        a += 1
+        if(line != ""):
+            print(str(a) + ": " + re.split(";", line)[0])
+            a += 1
     print("\na" + ": " "Lägg till ny länk och lösen")
     print("r" + ": " "Ta bort en länk och lösen")
     print("Välj nummret på de mötet du vill joina: ")
