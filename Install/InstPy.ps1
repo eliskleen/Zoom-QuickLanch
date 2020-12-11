@@ -9,7 +9,7 @@ $version = if($p -is [System.Management.Automation.ErrorRecord])
 else
 {$InstPy = 0}
 
-if($InstPy -eq 1)
+if($InstPy -eq 0)
 {
     $pythonUrl = "https://www.python.org/ftp/python/3.9.1/python-3.9.1-amd64.exe"
 
@@ -157,4 +157,5 @@ python -m pip install --upgrade pip
 pip install pyautogui
 pip install pyscreenshot
 pip install imagehash
+pip install numpy==1.19.3
 python addProfile.py
