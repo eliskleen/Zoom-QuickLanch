@@ -11,17 +11,17 @@ else
 
 if($InstPy -eq 1)
 {
-    $pythonUrl = "https://www.python.org/ftp/python/3.9.1/python-3.9.1-amd64.exe"
+    $pythonUrl = "https://www.python.org/ftp/python/3.8.6/python-3.8.6-amd64.exe"
 
     # This is the directory that the exe is downloaded to
     $tempDirectory = "C:\temp_provision\"
 
     # Installation Directory
     # Some packages look for Python here
-    $targetDir = "C:\Python39"
+    $targetDir = "C:\Python386"
 
     # create the download directory and get the exe file
-    $pythonNameLoc = $tempDirectory + "python391.exe"
+    $pythonNameLoc = $tempDirectory + "python386.exe"
     New-Item -ItemType directory -Path $tempDirectory -Force | Out-Null
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     (New-Object System.Net.WebClient).DownloadFile($pythonUrl, $pythonNameLoc)
@@ -154,6 +154,7 @@ if($InstPy -eq 1)
 }
 # Install a library using Pip
 python -m pip install --upgrade pip
+pip install Pillow
 pip install pyautogui
 pip install pyscreenshot
 pip install imagehash
