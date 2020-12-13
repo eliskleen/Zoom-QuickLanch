@@ -80,10 +80,10 @@ def addNewLinkAndPass():
     passW = input()
     fileName = os.getcwd() + "\\zoomLinks.txt"
     try:
-        f = open(currentDir)
+        f = open(fileName)
     # Do something with the file
     except IOError:
-         f = open(currentDir, mode='w+',encoding="utf-8")
+         f = open(fileName, mode='w+',encoding="utf-8")
     finally:
         f.close()
     file = open(fileName, "a")
