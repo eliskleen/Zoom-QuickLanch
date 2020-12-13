@@ -79,6 +79,13 @@ def addNewLinkAndPass():
     print("Skriv in lösenordet")
     passW = input()
     fileName = os.getcwd() + "\\zoomLinks.txt"
+    try:
+        f = open(currentDir)
+    # Do something with the file
+    except IOError:
+         f = open(currentDir, mode='w+',encoding="utf-8")
+    finally:
+        f.close()
     file = open(fileName, "a")
     file.write("\n" + name + ";" + link + ";" + passW)
     file.close()
