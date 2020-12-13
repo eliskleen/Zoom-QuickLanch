@@ -15,16 +15,13 @@ def getLink(line):
 
 def getLines():
     currentDir = os.getcwd() + "\\zoomLinks.txt"
-    try:
-        f = open(currentDir)
-    # Do something with the file
-    except IOError:
-         f = open(currentDir, mode='w+',encoding="utf-8")
-    finally:
-        f.close()
-    file = open(currentDir, mode='r',encoding="utf-8")
-    lines = file.read().split("\n")
-    return lines
+    if(os.path.exists(currentDir)):
+        file = open(currentDir, mode='r',encoding="utf-8")
+        lines = file.read().split("\n")
+        file.close()
+        return lines
+    else:
+        return []
 def openZoomLink(linkAndPass):
     link = re.split(";", linkAndPass, 1)[0]
     os.system("start  "+ link)
@@ -79,16 +76,10 @@ def addNewLinkAndPass():
     print("Skriv in lösenordet")
     passW = input()
     fileName = os.getcwd() + "\\zoomLinks.txt"
-    try:
-        f = open(fileName)
-    # Do something with the file
-    except IOError:
-         f = open(fileName, mode='w+',encoding="utf-8")
-    finally:
-        f.close()
     file = open(fileName, "a")
     file.write("\n" + name + ";" + link + ";" + passW)
     file.close()
+    
 
 def removeOldLink():
     print("Nummret på länken som ska bort:")
@@ -137,6 +128,8 @@ if __name__ == "__main__":
         answer = input()
         if answer == "a":
             addNewLinkAndPass()
+            pyautogui.hotkey("ctrlleft", "shift", "1") 
+            exit()
         elif answer == "r":
             removeOldLink()
         elif answer == "q":
