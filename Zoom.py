@@ -21,6 +21,7 @@ def getLines():
         file.close()
         return lines
     else:
+        file = open(currentDir, mode='w',encoding="utf-8")
         return []
 def openZoomLink(linkAndPass):
     link = re.split(";", linkAndPass, 1)[0]
@@ -51,7 +52,6 @@ def tabToCorrectMeeting(passW):
         pyautogui.hotkey("tab")
         time.sleep(0.2)
     pyautogui.typewrite("\n")    
-
         
 
 
