@@ -119,7 +119,6 @@ if __name__ == "__main__":
     topY = int(h/2 - sizeY/2)
     sizeY=int(150*scale)
     lines = getLines()
-
     a = 1
     for line in lines:
         if(line != ""):
@@ -136,6 +135,8 @@ if __name__ == "__main__":
             exit()
         elif answer == "r":
             removeOldLink()
+            pyautogui.hotkey("ctrlleft", "shift", "1") 
+            exit()
         elif answer == "q":
             break
         else:
