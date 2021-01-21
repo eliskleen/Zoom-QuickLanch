@@ -6,7 +6,6 @@ import pyautogui
 import time
 import ctypes
 import imagehash
-from os.path import isfile, join
 
 
 
