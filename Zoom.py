@@ -60,7 +60,10 @@ def tabToCorrectMeeting(passW):
 
 def enterPass(linkAndPass):
     passW = re.split(";", linkAndPass, 1)[1] 
-    pyautogui.typewrite(list(passW + "\n"))
+    for ch in passW:
+        pyautogui.typewrite(ch)
+        time.sleep(0.3)
+   pyautogui.typewrite("\n")
 
 def closeWindowInChrome(numberOfTabs):
     pyautogui.hotkey("altleft", "tab")
