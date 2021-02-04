@@ -55,8 +55,6 @@ def tabToCorrectMeeting(passW):
         pyautogui.hotkey("tab")
         time.sleep(0.2)
     pyautogui.typewrite("\n")    
-        
-
 
 def enterPass(linkAndPass):
     passW = re.split(";", linkAndPass, 1)[1] 
@@ -82,7 +80,6 @@ def addNewLinkAndPass():
     file = open(fileName, "a")
     file.write("\n" + name + ";" + link + ";" + passW)
     file.close()
-    
 
 def removeOldLink():
     print("Nummret på länken som ska bort:")
