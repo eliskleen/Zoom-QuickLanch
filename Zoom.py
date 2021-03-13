@@ -61,7 +61,7 @@ def enterPass(linkAndPass):
     for ch in passW:
         pyautogui.typewrite(ch)
         time.sleep(0.3)
-   pyautogui.typewrite("\n")
+    pyautogui.typewrite("\n")
 
 def closeWindowInChrome(numberOfTabs):
     pyautogui.hotkey("altleft", "tab")
