@@ -1,4 +1,6 @@
-#Zoom-QuickLanc
+Zoom-QuickLanch
+This project came from not wanting to have to search for the zoom link and password everytime I wanted to jion a class.
+So i built this, now I only have to add a link and the corresponding password once in the program and then I can use it to join meetings without even having to click a link or enter a password!
 
 Required:
     Having Windows terminal installed
