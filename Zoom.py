@@ -96,6 +96,8 @@ def removeOldLink():
             file.write("\n")
     file.close() 
 
+
+
 scale = 1
 sizeX = 0
 sizeY = 0
@@ -116,6 +118,7 @@ if __name__ == "__main__":
     topX = int(w/2 - sizeX/2)
     topY = int(h/2 - sizeY/2)
     sizeY=int(150*scale)
+    #get the saved lines and show the links
     lines = getLines()
     a = 1
     for line in lines:
