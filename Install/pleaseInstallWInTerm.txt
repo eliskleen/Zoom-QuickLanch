@@ -1,0 +1,2 @@
+Please open this link (https://www.microsoft.com/sv-se/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab)
+and install windows terminal and run the "install.bat" file again!

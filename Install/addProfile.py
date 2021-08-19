@@ -8,9 +8,12 @@ from os.path import isfile, join
 
 
 def getLines():
-    settings = open(fileName)
-    lines = settings.read().split("\n")
-    return lines
+    try:
+        settings = open(fileName)
+        lines = settings.read().split("\n")
+        return lines
+    except:
+        return 0
 def getNewProfile():
     currentDir = os.getcwd()
     file=open("profile.txt")
@@ -38,10 +41,13 @@ if __name__ == "__main__":
     fileName = "C:\\Users\\" + name + "\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
     #fileName = "C:\\Chalmers\\RoligaProjekt\\ZoomOpen\\testSettings.txt"
     lines=getLines()
+    if(len(lines) == 0):
+        os.system('cmd /c "pleaseInstallWInTerm.txt"')
+        exit()
     top = []
     bottom=[]
     a=0
-    lineToInsertOn =0
+    lineToInsertOn = 0
     listFound = False
     for line in lines:
         if(line.__contains__("\"list\":")):     #Finding the list of users to know where to add the new profile
@@ -49,7 +55,7 @@ if __name__ == "__main__":
         if((listFound & line.__contains__("[")) or line.__contains__("\"list\": [")):
             lineToInsertOn = a+1
             break
-        a +=1
+        a += 1
     
     profile  = getNewProfile()
     #making sure the guid doesent already exist
