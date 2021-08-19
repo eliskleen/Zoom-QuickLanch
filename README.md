@@ -5,7 +5,6 @@ to join meetings without even having to click a link or enter a password!
 
 Required:
     Having Windows terminal installed, link: https://www.microsoft.com/sv-se/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab
-    
     Accepting downloads when running the install.bat file
     
 
