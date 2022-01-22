@@ -18,7 +18,6 @@ def getLines():
         file = open(currentDir, mode='r',encoding="utf-8")
         lines = file.read().split("\n")
         file.close()
-        retLines = 0
         for l in lines:
             if not l.__contains__("h"):
                 lines.remove(l)
