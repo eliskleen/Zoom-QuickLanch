@@ -8,59 +8,13 @@ import ctypes
 import imagehash
 
 
-def main():
-    #Get the scale factor:
-    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
-    #print(scaleFactor)
-    scale=scaleFactor
-    #rescale sizes
-    sizeX = int(150*scale)
-    sizeY = int(300*scale)
-    #Get screen size and calculate where to screenshot
-    user32 = ctypes.windll.user32
-    [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
-    topX = int(w/2 - sizeX/2)
-    topY = int(h/2 - sizeY/2)
-    sizeY=int(150*scale)
-    #get the saved lines and show the links
-    lines = getLines()
-    a = 1
-    for line in lines:
-        if(line != ""):
-            print(str(a) + ": " + re.split(";", line)[0])
-            a += 1
-    print("\na" + ": " "Lägg till ny länk och lösen")
-    print("r" + ": " "Ta bort en länk och lösen")
-    print("Välj nummret på de mötet du vill joina: ")
-    while(1):
-        answer = input()
-        if answer == "a":
-            addNewLinkAndPass()
-            pyautogui.hotkey("ctrlleft", "shift", "1") 
-            exit()
-        elif answer == "r":
-            removeOldLink()
-            pyautogui.hotkey("ctrlleft", "shift", "1") 
-            exit()
-        elif answer == "q":
-            break
-        else:
-            choosenLine = lines[int(answer)-1]
-            linkAndPass = getLink(choosenLine)
-            openZoomLink(linkAndPass)
-            passW = re.split(";", linkAndPass, 1)[1] 
-            if(re.split(":", passW, 1)[0]  == "tab"):
-                tabToCorrectMeeting(passW)
-                time.sleep(5)
-                closeWindowInChrome(2)
-            else:
-                if(passW != ""):
-                    waitForZoom()
-                    closeWindowInChrome(1)
-                    enterPass(linkAndPass)
-                else:
-                    tabToCorrectMeeting(":0")
-                    closeWindowInChrome(1)
+scale = 1
+sizeX = 0
+sizeY = 0
+topX = 0
+topY = 0
+
+    
 
 
 def getLink(line):
@@ -149,12 +103,59 @@ def removeOldLink():
             file.write("\n")
     file.close() 
     
-scale = 1
-sizeX = 0
-sizeY = 0
-topX = 0
-topY = 0
+
 
 if __name__ == "__main__":
-    main()
+#Get the scale factor:
+    scaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
+    #print(scaleFactor)
+    scale=scaleFactor
+    #rescale sizes
+    sizeX = int(150*scale)
+    sizeY = int(300*scale)
+    #Get screen size and calculate where to screenshot
+    user32 = ctypes.windll.user32
+    [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+    topX = int(w/2 - sizeX/2)
+    topY = int(h/2 - sizeY/2)
+    sizeY=int(150*scale)
+    #get the saved lines and show the links
+    lines = getLines()
+    a = 1
+    for line in lines:
+        if(line != ""):
+            print(str(a) + ": " + re.split(";", line)[0])
+            a += 1
+    print("\na" + ": " "Lägg till ny länk och lösen")
+    print("r" + ": " "Ta bort en länk och lösen")
+    print("Välj nummret på de mötet du vill joina: ")
+    while(1):
+        answer = input()
+        if answer == "a":
+            addNewLinkAndPass()
+            pyautogui.hotkey("ctrlleft", "shift", "1") 
+            exit()
+        elif answer == "r":
+            removeOldLink()
+            pyautogui.hotkey("ctrlleft", "shift", "1") 
+            exit()
+        elif answer == "q":
+            break
+        else:
+            choosenLine = lines[int(answer)-1]
+            linkAndPass = getLink(choosenLine)
+            openZoomLink(linkAndPass)
+            passW = re.split(";", linkAndPass, 1)[1] 
+            if(re.split(":", passW, 1)[0]  == "tab"):
+                tabToCorrectMeeting(passW)
+                time.sleep(5)
+                closeWindowInChrome(2)
+            else:
+                if(passW != ""):
+                    waitForZoom()
+                    closeWindowInChrome(1)
+                    enterPass(linkAndPass)
+                else:
+                    tabToCorrectMeeting(":0")
+                    closeWindowInChrome(1)
     
